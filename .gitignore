@@ -5,3 +5,7 @@
 /logs/*
 !/logs/README.md
 .phpunit.result.cache
+docker/data
+!docker/data/.gitkeep
+.env
+prod.env

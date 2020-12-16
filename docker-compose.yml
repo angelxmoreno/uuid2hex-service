@@ -1,18 +1,35 @@
-version: '3.7'
-
-volumes:
-    logs:
-        driver: local
-
+version: '2'
 services:
-    slim:
-        image: php:7-alpine
-        working_dir: /var/www
-        command: php -S 0.0.0.0:8080 -t public
-        environment:
-            docker: "true"
-        ports:
-            - 8080:8080
-        volumes:
-            - .:/var/www
-            - logs:/var/www/logs
+  fpm:
+    container_name: "${APP_PREFIX}-fpm"
+    image: angelxmoreno/php7-fpm-alpine-dev:latest
+    volumes:
+      - .:/var/www/html
+      - ./docker/config/fpm/ini/date.ini:/usr/local/etc/php/conf.d/date.ini
+    links:
+      - mysql
+  web:
+    container_name: "${APP_PREFIX}-nginx"
+    image: nginx:1.13-alpine
+    links:
+      - fpm
+    ports:
+      - "${PORT_PREFIX}11:80"
+    volumes:
+      - ./docker/config/nginx/site.conf:/etc/nginx/conf.d/_site.conf:ro
+    volumes_from:
+      - fpm
+
+  mysql:
+    container_name: "${APP_PREFIX}-mysql"
+    image: mariadb:10.4
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      - MYSQL_ROOT_PASSWORD=${APP_PREFIX}
+      - MYSQL_USER=${APP_PREFIX}
+      - MYSQL_PASSWORD=${APP_PREFIX}
+      - MYSQL_DATABASE=${APP_PREFIX}
+    volumes:
+      - './docker/data/mysql:/var/lib/mysql'
+    ports:
+      - "${PORT_PREFIX}12:3306"
