@@ -16,7 +16,7 @@ abstract class UserAction extends Action
 
     /**
      * @param LoggerInterface $logger
-     * @param UserRepository  $userRepository
+     * @param UserRepository $userRepository
      */
     public function __construct(LoggerInterface $logger, UserRepository $userRepository)
     {

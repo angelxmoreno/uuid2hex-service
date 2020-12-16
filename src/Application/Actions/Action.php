@@ -41,9 +41,9 @@ abstract class Action
     }
 
     /**
-     * @param Request  $request
+     * @param Request $request
      * @param Response $response
-     * @param array    $args
+     * @param array $args
      * @return Response
      * @throws HttpNotFoundException
      * @throws HttpBadRequestException
@@ -84,7 +84,7 @@ abstract class Action
     }
 
     /**
-     * @param  string $name
+     * @param string $name
      * @return mixed
      * @throws HttpBadRequestException
      */
@@ -98,7 +98,7 @@ abstract class Action
     }
 
     /**
-     * @param  array|object|null $data
+     * @param array|object|null $data
      * @return Response
      */
     protected function respondWithData($data = null, int $statusCode = 200): Response
@@ -118,7 +118,7 @@ abstract class Action
         $this->response->getBody()->write($json);
 
         return $this->response
-                    ->withHeader('Content-Type', 'application/json')
-                    ->withStatus($payload->getStatusCode());
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus($payload->getStatusCode());
     }
 }
