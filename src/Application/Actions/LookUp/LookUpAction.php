@@ -49,7 +49,7 @@ class LookUpAction extends ActionBase
 
         $uuid2hex_conditions = compact('uuid');
         $exists = $this->Uuid2Hexs->exists($uuid2hex_conditions);
-        if($exists) {
+        if ($exists) {
             /** @var Uuid2hex $uuid2hex */
             $uuid2hex = $this->Uuid2Hexs->find()->where($uuid2hex_conditions)->first();
             $requestLog->status = RequestLogStatus::FETCHED();
@@ -64,6 +64,6 @@ class LookUpAction extends ActionBase
         $this->RequestLogs->saveOrFail($requestLog);
 
         $hex = $uuid2hex->hex;
-        return $this->respondWithData(compact('uuid','hex'));
+        return $this->respondWithData(compact('uuid', 'hex'));
     }
 }

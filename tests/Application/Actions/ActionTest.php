@@ -21,11 +21,12 @@ class ActionTest extends TestCase
         $testAction = new class($logger) extends Action {
             public function __construct(
                 LoggerInterface $loggerInterface
-            ) {
+            )
+            {
                 parent::__construct($loggerInterface);
             }
 
-            public function action() :Response
+            public function action(): Response
             {
                 return $this->respond(
                     new ActionPayload(
@@ -54,11 +55,12 @@ class ActionTest extends TestCase
         $testAction = new class($logger) extends Action {
             public function __construct(
                 LoggerInterface $loggerInterface
-            ) {
+            )
+            {
                 parent::__construct($loggerInterface);
             }
 
-            public function action() :Response
+            public function action(): Response
             {
                 return $this->respondWithData(
                     [

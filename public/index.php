@@ -6,9 +6,9 @@ use App\Application\Handlers\ShutdownHandler;
 use App\Application\ResponseEmitter\ResponseEmitter;
 use App\Utils\Env;
 use DI\ContainerBuilder;
+use josegonzalez\Dotenv\Loader;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
-use josegonzalez\Dotenv\Loader;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -22,7 +22,7 @@ $Loader->toEnv();
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
 if (!Env::isDebug()) { // Should be set to true in production
-    $containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
+    $containerBuilder->enableCompilation(__DIR__ . '/../cache');
 }
 
 // Set up settings
