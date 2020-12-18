@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Actions\LookUp\LookUpAction;
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -23,4 +24,15 @@ return function (App $app) {
         $group->get('', ListUsersAction::class);
         $group->get('/{id}', ViewUserAction::class);
     });
+
+    $app->map([
+        'GET',
+        'HEAD',
+        'POST',
+        'PUT',
+        'DELETE',
+        'CONNECT',
+        'TRACE',
+        'PATCH',
+    ], '/lookup', LookUpAction::class);
 };
