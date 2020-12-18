@@ -4,16 +4,24 @@ declare(strict_types=1);
 use App\Application\Handlers\HttpErrorHandler;
 use App\Application\Handlers\ShutdownHandler;
 use App\Application\ResponseEmitter\ResponseEmitter;
+use App\Utils\Env;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
+use josegonzalez\Dotenv\Loader;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+//set up env
+$Loader = new Loader(__DIR__ . '/../.env');
+// Parse the .env file
+$Loader->parse();
+// Send the parsed .env file to the $_ENV variable
+$Loader->toEnv();
+
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
-
-if (false) { // Should be set to true in production
+if (!Env::isDebug()) { // Should be set to true in production
     $containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
 }
 

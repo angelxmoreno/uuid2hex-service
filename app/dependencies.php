@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Utils\CakephpLoader;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -9,6 +10,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 return function (ContainerBuilder $containerBuilder) {
+    $containerBuilder->addDefinitions(CakephpLoader::getModelDefinitions());
     $containerBuilder->addDefinitions([
         LoggerInterface::class => function (ContainerInterface $c) {
             $settings = $c->get('settings');
