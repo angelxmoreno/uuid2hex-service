@@ -7,6 +7,7 @@ use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Locator\TableLocator;
+use DI\Factory\RequestedEntry;
 use HaydenPierce\ClassFinder\ClassFinder;
 use Psr\Container\ContainerInterface;
 
@@ -24,14 +25,14 @@ class CakephpLoader
     {
         $definitions = [
             TableLocator::class => function (ContainerInterface $c) {
-                return self::loadTableLocator($c);
+                return CakephpLoader::loadTableLocator($c);
             }
         ];
 
         $tables = ClassFinder::getClassesInNamespace('App\\Model\\Table');
         foreach ($tables as $class_name) {
-            $definitions[$class_name] = function (ContainerInterface $c) use ($class_name) {
-                return $c->get(TableLocator::class)->get($class_name);
+            $definitions[$class_name] = function (RequestedEntry $entry, ContainerInterface $c)  {
+                return $c->get(TableLocator::class)->get($entry->getName());
             };
         }
 
@@ -46,8 +47,8 @@ class CakephpLoader
     {
         Configure::write('App.namespace', 'App');
 
-        self::loadCache($container);
-        self::loadConnectionManager($container);
+        CakephpLoader::loadCache($container);
+        CakephpLoader::loadConnectionManager($container);
 
         return new TableLocator();
     }
