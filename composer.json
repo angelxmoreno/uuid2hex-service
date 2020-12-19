@@ -25,6 +25,7 @@
         "php": "^7.2",
         "ext-json": "*",
         "akrabat/ip-address-middleware": "^2.0",
+        "analog/analog": "^1.0",
         "cakephp/cache": "^4.1",
         "cakephp/i18n": "^4.1",
         "cakephp/orm": "^4.1",
