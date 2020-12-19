@@ -23,7 +23,7 @@ composer-optimized: ## runs an optimized no-dev composer install
 	composer install --apcu-autoloader --optimize-autoloader
 
 copy-env: ## copies local id_rsa to server
-	 scp -P 7822 prod.env fivetale@mi3-ls12.a2hosting.com:~/cagedmovies.fivetalents.software/.env
+	 scp -P 7822 prod.env fivetale@mi3-ls12.a2hosting.com:~/uuid2hex/app/.env
 
 prod: ## ssh into prod server
-	ssh fivetale@mi3-ls12.a2hosting.com -p 7822 -t "cd ~/cagedmovies.fivetalents.software/ ; bash"
+	ssh fivetale@mi3-ls12.a2hosting.com -p 7822 -t "cd ~/uuid2hex/app/ ; bash"
