@@ -6,76 +6,83 @@ use App\Application\Handlers\ShutdownHandler;
 use App\Application\Middleware\SentryMiddleware;
 use App\Application\ResponseEmitter\ResponseEmitter;
 use App\Utils\Env;
+use Cake\Core\Configure;
 use DI\ContainerBuilder;
 use josegonzalez\Dotenv\Loader;
+use Psr\Log\LoggerInterface;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 
-require __DIR__ . '/../vendor/autoload.php';
-try {
-//set up env
-    $Loader = new Loader(__DIR__ . '/../.env');
-// Parse the .env file
-    $Loader->parse();
-// Send the parsed .env file to the $_ENV variable
-    $Loader->toEnv();
+// constants
+require __DIR__ . '/../config/constants.php';
+require VENDOR_DIR . 'autoload.php';
 
-// Instantiate PHP-DI ContainerBuilder
+try {
+    //set up env
+    $Loader = new Loader(ROOT_DIR . '.env');
+    // Parse the .env file
+    $Loader->parse();
+    // Send the parsed .env file to the $_ENV variable
+    $Loader->toEnv();
+    Configure::write('App.namespace', 'App');
+    Configure::write('debug', Env::isDebug());
+
+    // Instantiate PHP-DI ContainerBuilder
     $containerBuilder = new ContainerBuilder();
     if (!Env::isDebug()) { // Should be set to true in production
-        $containerBuilder->enableCompilation(__DIR__ . '/../cache');
+        $containerBuilder->enableCompilation(CACHE_DIR);
     }
 
-// Set up settings
-    $settings = require __DIR__ . '/../app/settings.php';
+    // Set up settings
+    $settings = require CONFIG_DIR . 'settings.php';
     $settings($containerBuilder);
 
-// Set up dependencies
-    $dependencies = require __DIR__ . '/../app/dependencies.php';
+    // Set up dependencies
+    $dependencies = require CONFIG_DIR . 'dependencies.php';
     $dependencies($containerBuilder);
 
-// Build PHP-DI Container instance
+    // Build PHP-DI Container instance
     $container = $containerBuilder->build();
     Sentry\init($container->get('settings')['sentry']);
 
-// Instantiate the app
+    // Instantiate the config
     AppFactory::setContainer($container);
     $app = AppFactory::create();
     $callableResolver = $app->getCallableResolver();
 
-// Register middleware
-    $middleware = require __DIR__ . '/../app/middleware.php';
+    // Register middleware
+    $middleware = require CONFIG_DIR . 'middleware.php';
     $middleware($app);
 
-// Register routes
-    $routes = require __DIR__ . '/../app/routes.php';
+    // Register routes
+    $routes = require CONFIG_DIR . 'routes.php';
     $routes($app);
 
     /** @var bool $displayErrorDetails */
     $displayErrorDetails = $container->get('settings')['displayErrorDetails'];
 
-// Create Request object from globals
+    // Create Request object from globals
     $serverRequestCreator = ServerRequestCreatorFactory::create();
     $request = $serverRequestCreator->createServerRequestFromGlobals();
 
-// Create Error Handler
+    // Create Error Handler
     $responseFactory = $app->getResponseFactory();
-    $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
+    $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory, $container->get(LoggerInterface::class));
 
-// Create Shutdown Handler
+    // Create Shutdown Handler
     $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
     register_shutdown_function($shutdownHandler);
 
-// Add Routing Middleware
+    // Add Routing Middleware
     $app->addRoutingMiddleware();
 
 
-// Add Error Middleware
+    // Add Error Middleware
     $app->add(SentryMiddleware::class);
     $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, false, false);
     $errorMiddleware->setDefaultErrorHandler($errorHandler);
 
-// Run App & Emit Response
+    // Run App & Emit Response
     $response = $app->handle($request);
     $responseEmitter = new ResponseEmitter();
     $responseEmitter->emit($response);

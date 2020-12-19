@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use Cake\Cache\Cache;
-use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Locator\TableLocator;
 use DI\Factory\RequestedEntry;
@@ -31,7 +30,7 @@ class CakephpLoader
 
         $tables = ClassFinder::getClassesInNamespace('App\\Model\\Table');
         foreach ($tables as $class_name) {
-            $definitions[$class_name] = function (RequestedEntry $entry, ContainerInterface $c)  {
+            $definitions[$class_name] = function (RequestedEntry $entry, ContainerInterface $c) {
                 return $c->get(TableLocator::class)->get($entry->getName());
             };
         }
@@ -45,8 +44,6 @@ class CakephpLoader
      */
     public static function loadTableLocator(ContainerInterface $container)
     {
-        Configure::write('App.namespace', 'App');
-
         CakephpLoader::loadCache($container);
         CakephpLoader::loadConnectionManager($container);
 

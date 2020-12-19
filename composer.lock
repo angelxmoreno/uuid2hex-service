@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c91b1b7f1f8d0e60a750e10851d37e5",
+    "content-hash": "eda9c6b2e3d87db1149c9833ec149fc3",
     "packages": [
         {
             "name": "akrabat/ip-address-middleware",
@@ -58,71 +58,6 @@
                 "psr7"
             ],
             "time": "2020-12-07T11:04:16+00:00"
-        },
-        {
-            "name": "analog/analog",
-            "version": "1.0.17-stable",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jbroadway/analog.git",
-                "reference": "f9541cdf30dfb391a8be1befb05a3344099e6ea9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jbroadway/analog/zipball/f9541cdf30dfb391a8be1befb05a3344099e6ea9",
-                "reference": "f9541cdf30dfb391a8be1befb05a3344099e6ea9",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2",
-                "psr/log": "^1.0.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Analog": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Johnny Broadway",
-                    "email": "johnny@johnnybroadway.com",
-                    "homepage": "http://www.johnnybroadway.com/"
-                }
-            ],
-            "description": "Fast, flexible, easy PSR-3-compatible PHP logging package with dozens of handlers.",
-            "homepage": "https://github.com/jbroadway/analog",
-            "keywords": [
-                "PSR3",
-                "alerts",
-                "amon",
-                "apprise",
-                "chrome-logger",
-                "console",
-                "debug",
-                "debugging",
-                "error",
-                "errors",
-                "firephp",
-                "gelf",
-                "log",
-                "logger",
-                "logging",
-                "logs",
-                "monitor",
-                "monitoring",
-                "psr-3",
-                "stderr",
-                "syslog"
-            ],
-            "time": "2020-12-16T17:57:17+00:00"
         },
         {
             "name": "aura/intl",
@@ -5043,5 +4978,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }

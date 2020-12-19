@@ -12,14 +12,14 @@ return function (ContainerBuilder $containerBuilder) {
             'isDebug' => Env::isDebug(),
             'database_url' => Env::get('DATABASE_URL'),
             'displayErrorDetails' => Env::isDebug(), // Should be set to false in production
-            'cache_path' => __DIR__ . '/../cache/',
+            'cache_path' => CACHE_DIR,
             'database' => [
                 'database_url' => Env::get('DATABASE_URL'),
                 'cache_url' => Env::get('CACHE_URL'),
             ],
             'logger' => [
                 'name' => 'uuid2hex',
-                'path' => __DIR__ . '/../logs/app.log',
+                'path' => LOGS_DIR . 'app.log',
                 'level' => Logger::DEBUG,
             ],
             'sentry' => [
