@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Middleware\SentryMiddleware;
 use App\Utils\CakephpLoader;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
@@ -12,6 +13,9 @@ use Psr\Log\LoggerInterface;
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions(CakephpLoader::getModelDefinitions());
     $containerBuilder->addDefinitions([
+        SentryMiddleware::class => function (ContainerInterface $container) {
+            return new SentryMiddleware($container->get('settings')['sentry']);
+        },
         LoggerInterface::class => function (ContainerInterface $c) {
             $settings = $c->get('settings');
 

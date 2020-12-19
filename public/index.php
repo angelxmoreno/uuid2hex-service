@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use App\Application\Handlers\HttpErrorHandler;
 use App\Application\Handlers\ShutdownHandler;
+use App\Application\Middleware\SentryMiddleware;
 use App\Application\ResponseEmitter\ResponseEmitter;
 use App\Utils\Env;
 use DI\ContainerBuilder;
@@ -35,6 +36,7 @@ try {
 
 // Build PHP-DI Container instance
     $container = $containerBuilder->build();
+    Sentry\init($container->get('settings')['sentry']);
 
 // Instantiate the app
     AppFactory::setContainer($container);
@@ -67,7 +69,9 @@ try {
 // Add Routing Middleware
     $app->addRoutingMiddleware();
 
+
 // Add Error Middleware
+    $app->add(SentryMiddleware::class);
     $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, false, false);
     $errorMiddleware->setDefaultErrorHandler($errorHandler);
 
@@ -76,5 +80,6 @@ try {
     $responseEmitter = new ResponseEmitter();
     $responseEmitter->emit($response);
 } catch (\Exception $e) {
+    \Sentry\captureException($e);
     echo "An error has happened: " . $e->getMessage() . PHP_EOL;
 }
