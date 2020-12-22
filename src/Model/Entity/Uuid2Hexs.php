@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Class Uuid2hex
+ * Class Uuid2Hexs
  * @package App\Model\Entity
  *
  * @property int $id
@@ -15,7 +15,7 @@ use Cake\ORM\Entity;
  * @property \DateTimeInterface $created
  * @property \DateTimeInterface $modified
  */
-class Uuid2hex extends Entity
+class Uuid2Hexs extends Entity
 {
 
 }

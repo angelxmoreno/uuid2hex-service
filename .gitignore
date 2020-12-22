@@ -11,3 +11,4 @@ docker/data
 !docker/data/.gitkeep
 .env
 prod.env
+heroku.env

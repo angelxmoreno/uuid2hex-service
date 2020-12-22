@@ -10,22 +10,21 @@ return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
         'settings' => [
             'isDebug' => Env::isDebug(),
-            'database_url' => Env::get('DATABASE_URL'),
             'displayErrorDetails' => Env::isDebug(), // Should be set to false in production
             'cache_path' => CACHE_DIR,
             'database' => [
-                'database_url' => Env::get('DATABASE_URL'),
-                'cache_url' => Env::get('CACHE_URL'),
+                'database_url' => Env::get('DATABASE_URL', 'mysql://user:pass@localhost/some_database'),
+                'cache_url' => Env::get('CACHE_URL','file://cache?prefix=_cake_model&serialize=true'),
             ],
             'logger' => [
-                'name' => 'uuid2hex',
-                'path' => LOGS_DIR . 'app.log',
+                'name' => 'slimApp',
+                'path' => LOGS_DIR . 'app2.log',
                 'level' => Logger::DEBUG,
             ],
             'sentry' => [
-                'dsn' => Env::get('SENTRY_DSN'),
-                'environment' => Env::get('SENTRY_ENVIRONMENT'),
-                'server_name' => Env::get('SENTRY_SERVER_NAME'),
+                'dsn' => Env::get('SENTRY_DSN',''),
+                'environment' => Env::get('SENTRY_ENVIRONMENT',''),
+                'server_name' => Env::get('SENTRY_SERVER_NAME',''),
             ],
         ],
     ]);

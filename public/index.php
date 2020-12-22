@@ -6,6 +6,7 @@ use App\Application\Handlers\ShutdownHandler;
 use App\Application\Middleware\SentryMiddleware;
 use App\Application\ResponseEmitter\ResponseEmitter;
 use App\Utils\Env;
+use App\Utils\Settings;
 use Cake\Core\Configure;
 use DI\ContainerBuilder;
 use josegonzalez\Dotenv\Loader;
@@ -19,11 +20,10 @@ require VENDOR_DIR . 'autoload.php';
 
 try {
     //set up env
-    $Loader = new Loader(ROOT_DIR . '.env');
-    // Parse the .env file
-    $Loader->parse();
-    // Send the parsed .env file to the $_ENV variable
-    $Loader->toEnv();
+    if (file_exists(ROOT_DIR . '.env')) {
+        (new Loader(ROOT_DIR . '.env'))->parse()->toEnv();
+    }
+
     Configure::write('App.namespace', 'App');
     Configure::write('debug', Env::isDebug());
 
@@ -43,7 +43,7 @@ try {
 
     // Build PHP-DI Container instance
     $container = $containerBuilder->build();
-    Sentry\init($container->get('settings')['sentry']);
+    Sentry\init(Settings::get($container, 'sentry'));
 
     // Instantiate the config
     AppFactory::setContainer($container);
@@ -78,8 +78,9 @@ try {
 
 
     // Add Error Middleware
-    $app->add(SentryMiddleware::class);
-    $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, false, false);
+    if (Settings::has($container, 'sentry.dsn'))
+        $app->add(SentryMiddleware::class);
+    $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, true, true);
     $errorMiddleware->setDefaultErrorHandler($errorHandler);
 
     // Run App & Emit Response
