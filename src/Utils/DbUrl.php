@@ -27,6 +27,9 @@ class DbUrl
         $queryStr = parse_url($db_url, PHP_URL_QUERY);
         parse_str($queryStr, $queryArr);
 
+        //overrides
+        if($params['adapter'] === 'postgres') $params['adapter'] = 'pgsql';
+
         return $params + $queryArr;
     }
 }

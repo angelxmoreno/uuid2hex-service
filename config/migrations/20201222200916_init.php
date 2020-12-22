@@ -8,19 +8,30 @@ use Phinx\Db\Adapter\MysqlAdapter;
  */
 class Init extends Phinx\Migration\AbstractMigration
 {
-    public function change()
+    public function up()
+    {
+        if ($this->getAdapter()->getAdapterType() === 'pgsql') {
+            $this->psqlChange();
+        }
+
+        if ($this->getAdapter()->getAdapterType() === 'mysql') {
+            $this->mysqlChange();
+        }
+    }
+
+    public function mysqlChange()
     {
         $this->execute("ALTER DATABASE CHARACTER SET 'utf8mb4';");
         $this->execute("ALTER DATABASE COLLATE='utf8mb4_unicode_ci';");
         $this->table('request_logs', [
-                'id' => false,
-                'primary_key' => ['id'],
-                'engine' => 'InnoDB',
-                'encoding' => 'utf8mb4',
-                'collation' => 'utf8mb4_unicode_ci',
-                'comment' => '',
-                'row_format' => 'DYNAMIC',
-            ])
+            'id' => false,
+            'primary_key' => ['id'],
+            'engine' => 'InnoDB',
+            'encoding' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'comment' => '',
+            'row_format' => 'DYNAMIC',
+        ])
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
@@ -97,14 +108,14 @@ class Init extends Phinx\Migration\AbstractMigration
             ])
             ->create();
         $this->table('uuid2_hexs', [
-                'id' => false,
-                'primary_key' => ['id'],
-                'engine' => 'InnoDB',
-                'encoding' => 'utf8mb4',
-                'collation' => 'utf8mb4_unicode_ci',
-                'comment' => '',
-                'row_format' => 'DYNAMIC',
-            ])
+            'id' => false,
+            'primary_key' => ['id'],
+            'engine' => 'InnoDB',
+            'encoding' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'comment' => '',
+            'row_format' => 'DYNAMIC',
+        ])
             ->addColumn('id', 'integer', [
                 'null' => false,
                 'limit' => MysqlAdapter::INT_REGULAR,
@@ -146,5 +157,129 @@ class Init extends Phinx\Migration\AbstractMigration
                 'unique' => true,
             ])
             ->create();
+    }
+
+    public function psqlChange()
+    {
+        $this->table('request_logs', [
+            'id' => false,
+            'primary_key' => ['id'],
+            'engine' => 'InnoDB',
+            'comment' => '',
+            'row_format' => 'DYNAMIC',
+        ])
+            ->addColumn('id', 'integer', [
+                'null' => false,
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'identity' => 'enable',
+            ])
+            ->addColumn('uuid2hex_id', 'integer', [
+                'null' => true,
+                'default' => null,
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'after' => 'id',
+            ])
+            ->addColumn('status', 'string', [
+                'null' => true,
+                'default' => null,
+                'limit' => 100,
+                'after' => 'uuid2hex_id',
+            ])
+            ->addColumn('reason', 'string', [
+                'null' => true,
+                'default' => null,
+                'limit' => 200,
+                'after' => 'status',
+            ])
+            ->addColumn('method', 'string', [
+                'null' => false,
+                'default' => '\'\'',
+                'limit' => 10,
+                'after' => 'reason',
+            ])
+            ->addColumn('headers', 'text', [
+                'null' => false,
+                'limit' => 65535,
+                'after' => 'method',
+            ])
+            ->addColumn('ip', 'string', [
+                'null' => false,
+                'limit' => 20,
+                'after' => 'headers',
+            ])
+            ->addColumn('body', 'text', [
+                'null' => false,
+                'limit' => 65535,
+                'after' => 'ip',
+            ])
+            ->addColumn('created', 'datetime', [
+                'null' => true,
+                'default' => null,
+                'after' => 'body',
+            ])
+            ->addColumn('modified', 'datetime', [
+                'null' => true,
+                'default' => null,
+                'after' => 'created',
+            ])
+            ->addIndex(['uuid2hex_id'], [
+                'name' => 'uuid2hex_id',
+                'unique' => false,
+            ])
+            ->addIndex(['status'], [
+                'name' => 'status',
+                'unique' => false,
+            ])
+            ->create();
+        $this->table('uuid2_hexs', [
+            'id' => false,
+            'primary_key' => ['id'],
+            'engine' => 'InnoDB',
+            'comment' => '',
+            'row_format' => 'DYNAMIC',
+        ])
+            ->addColumn('id', 'integer', [
+                'null' => false,
+                'limit' => MysqlAdapter::INT_REGULAR,
+                'signed' => false,
+                'identity' => 'enable',
+            ])
+            ->addColumn('uuid', 'char', [
+                'null' => false,
+                'default' => '\'\'',
+                'limit' => 36,
+                'after' => 'id',
+            ])
+            ->addColumn('hex', 'char', [
+                'null' => false,
+                'default' => '\'\'',
+                'limit' => 16,
+                'after' => 'uuid',
+            ])
+            ->addColumn('created', 'datetime', [
+                'null' => true,
+                'default' => null,
+                'after' => 'hex',
+            ])
+            ->addColumn('modified', 'datetime', [
+                'null' => true,
+                'default' => null,
+                'after' => 'created',
+            ])
+            ->addIndex(['uuid'], [
+                'name' => 'uuid',
+                'unique' => true,
+            ])
+            ->addIndex(['hex'], [
+                'name' => 'hex',
+                'unique' => true,
+            ])
+            ->create();
+    }
+
+    public function down() {
+        $this->table('uuid2_hexs')->drop()->save();
+        $this->table('request_logs')->drop()->save();
     }
 }
