@@ -24,7 +24,6 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
-        "ext-redis": "*",
         "akrabat/ip-address-middleware": "^2.0",
         "cakephp/cache": "^4.1",
         "cakephp/i18n": "^4.1",
