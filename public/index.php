@@ -19,10 +19,10 @@ require VENDOR_DIR . 'autoload.php';
 
 try {
     //set up env
-    $Loader = (new Loader(ROOT_DIR . '.env'))
-        ->raiseExceptions(false);
-    $Loader->parse();
-    $Loader->toEnv();
+    if (file_exists(ROOT_DIR . '.env')) {
+        (new Loader(ROOT_DIR . '.env'))->parse()->toEnv();
+    }
+
     Configure::write('App.namespace', 'App');
     Configure::write('debug', Env::isDebug());
 
