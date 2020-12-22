@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Application\Actions\LookUp;
 
 use App\Model\Entity\RequestLog;
-use App\Model\Entity\Uuid2hex;
+use App\Model\Entity\Uuid2Hexs;
 use App\Model\Enum\RequestLogStatus;
 use App\Utils\UUIDValidator;
 use Cake\Utility\Hash;
@@ -50,11 +50,11 @@ class LookUpAction extends ActionBase
         $uuid2hex_conditions = compact('uuid');
         $exists = $this->Uuid2Hexs->exists($uuid2hex_conditions);
         if ($exists) {
-            /** @var Uuid2hex $uuid2hex */
+            /** @var Uuid2Hexs $uuid2hex */
             $uuid2hex = $this->Uuid2Hexs->find()->where($uuid2hex_conditions)->first();
             $requestLog->status = RequestLogStatus::FETCHED();
         } else {
-            /** @var Uuid2hex $uuid2hex */
+            /** @var Uuid2Hexs $uuid2hex */
             $uuid2hex = $this->Uuid2Hexs->newEntity($uuid2hex_conditions);
             $this->Uuid2Hexs->saveOrFail($uuid2hex);
             $requestLog->status = RequestLogStatus::CREATED();
