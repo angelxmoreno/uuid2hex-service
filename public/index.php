@@ -19,10 +19,9 @@ require VENDOR_DIR . 'autoload.php';
 
 try {
     //set up env
-    $Loader = new Loader(ROOT_DIR . '.env');
-    // Parse the .env file
+    $Loader = (new Loader(ROOT_DIR . '.env'))
+        ->raiseExceptions(false);
     $Loader->parse();
-    // Send the parsed .env file to the $_ENV variable
     $Loader->toEnv();
     Configure::write('App.namespace', 'App');
     Configure::write('debug', Env::isDebug());
