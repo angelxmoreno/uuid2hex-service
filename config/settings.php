@@ -23,9 +23,9 @@ return function (ContainerBuilder $containerBuilder) {
                 'level' => Logger::DEBUG,
             ],
             'sentry' => [
-                'dsn' => Env::get('SENTRY_DSN'),
-                'environment' => Env::get('SENTRY_ENVIRONMENT'),
-                'server_name' => Env::get('SENTRY_SERVER_NAME'),
+                'dsn' => Env::get('SENTRY_DSN',''),
+                'environment' => Env::get('SENTRY_ENVIRONMENT',''),
+                'server_name' => Env::get('SENTRY_SERVER_NAME',''),
             ],
         ],
     ]);
