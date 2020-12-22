@@ -6,6 +6,7 @@ use App\Application\Handlers\ShutdownHandler;
 use App\Application\Middleware\SentryMiddleware;
 use App\Application\ResponseEmitter\ResponseEmitter;
 use App\Utils\Env;
+use App\Utils\Settings;
 use Cake\Core\Configure;
 use DI\ContainerBuilder;
 use josegonzalez\Dotenv\Loader;
@@ -42,7 +43,7 @@ try {
 
     // Build PHP-DI Container instance
     $container = $containerBuilder->build();
-    Sentry\init($container->get('settings')['sentry']);
+    Sentry\init(Settings::get($container, 'sentry'));
 
     // Instantiate the config
     AppFactory::setContainer($container);
@@ -77,8 +78,9 @@ try {
 
 
     // Add Error Middleware
-    $app->add(SentryMiddleware::class);
-    $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, false, false);
+    if (Settings::has($container, 'sentry.dsn'))
+        $app->add(SentryMiddleware::class);
+    $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, true, true);
     $errorMiddleware->setDefaultErrorHandler($errorHandler);
 
     // Run App & Emit Response

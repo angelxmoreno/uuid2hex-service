@@ -15,7 +15,7 @@ class Env
      */
     public static function isDebug()
     {
-        return !!self::get('DEBUG', false);
+        return !!self::get('DEBUG', true);
     }
 
     /**

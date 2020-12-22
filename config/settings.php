@@ -18,8 +18,8 @@ return function (ContainerBuilder $containerBuilder) {
                 'cache_url' => Env::get('CACHE_URL'),
             ],
             'logger' => [
-                'name' => 'uuid2hex',
-                'path' => LOGS_DIR . 'app.log',
+                'name' => 'slimApp',
+                'path' => LOGS_DIR . 'app2.log',
                 'level' => Logger::DEBUG,
             ],
             'sentry' => [

@@ -23,4 +23,17 @@ class Settings
         $settings = $container->get('settings');
         return Hash::get($settings, $path, $default);
     }
+
+    /**
+     * @param ContainerInterface $container
+     * @param string $path
+     * @return bool
+     */
+    public static function has(ContainerInterface $container, string $path):bool
+    {
+        $settings = $container->get('settings');
+        $value  = Hash::get($settings, $path, false);
+
+        return !!$value && trim($value) !== '';
+    }
 }
