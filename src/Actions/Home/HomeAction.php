@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Actions\Home;
+namespace App\Actions\Home;
 
 use App\Model\Table\RequestLogsTable;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -9,9 +9,9 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class HomeAction
- * @package App\Application\Actions\Home
+ * @package App\Actions\Home
  */
-class HomeAction extends \App\Application\Actions\Action
+class HomeAction extends \App\Actions\Action
 {
     /**
      * @var RequestLogsTable

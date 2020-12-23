@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Actions;
+namespace App\Actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -10,7 +10,7 @@ use Slim\Exception\HttpBadRequestException;
 
 /**
  * Class Action
- * @package App\Application\Actions
+ * @package App\Actions
  */
 abstract class Action
 {

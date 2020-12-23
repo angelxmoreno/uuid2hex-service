@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Middleware;
+namespace App\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -11,7 +11,7 @@ use Throwable;
 
 /**
  * Class SentryMiddleware
- * @package App\Application\Middleware
+ * @package App\Middleware
  */
 class SentryMiddleware implements MiddlewareInterface
 {
