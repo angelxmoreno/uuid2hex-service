@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Actions\LookUp;
+namespace App\Actions\LookUp;
 
 use App\Model\Entity\RequestLog;
 use App\Model\Entity\Uuid2Hexs;
@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 /**
  * Class LookUpAction
- * @package App\Application\Actions\LookUp
+ * @package App\Actions\LookUp
  */
 class LookUpAction extends ActionBase
 {

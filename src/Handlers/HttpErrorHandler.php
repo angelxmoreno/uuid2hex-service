@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Handlers;
+namespace App\Handlers;
 
-use App\Application\Actions\ActionError;
-use App\Application\Actions\ActionPayload;
+use App\Actions\ActionError;
+use App\Actions\ActionPayload;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpException;
@@ -18,7 +18,7 @@ use Throwable;
 
 /**
  * Class HttpErrorHandler
- * @package App\Application\Handlers
+ * @package App\Handlers
  */
 class HttpErrorHandler extends SlimErrorHandler
 {

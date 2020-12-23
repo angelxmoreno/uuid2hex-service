@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Handlers\HttpErrorHandler;
-use App\Application\Handlers\ShutdownHandler;
-use App\Application\Middleware\SentryMiddleware;
-use App\Application\ResponseEmitter\ResponseEmitter;
+use App\Handlers\HttpErrorHandler;
+use App\Handlers\ShutdownHandler;
+use App\Middleware\SentryMiddleware;
+use App\ResponseEmitter\ResponseEmitter;
 use App\Utils\Env;
 use App\Utils\Settings;
 use Cake\Core\Configure;

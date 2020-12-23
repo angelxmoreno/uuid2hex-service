@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Actions\LookUp;
+namespace App\Actions\LookUp;
 
-use App\Application\Actions\Action;
+use App\Actions\Action;
 use App\Model\Table\RequestLogsTable;
 use App\Model\Table\Uuid2HexsTable;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class ActionBase
- * @package App\Application\Actions\LookUp
+ * @package App\Actions\LookUp
  */
 abstract class ActionBase extends Action
 {

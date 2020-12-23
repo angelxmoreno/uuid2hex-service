@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Middleware\SentryMiddleware;
+use App\Middleware\SentryMiddleware;
 use App\Utils\CakephpLoader;
 use App\Utils\Settings;
 use DI\ContainerBuilder;
