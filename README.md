@@ -27,6 +27,9 @@ The sample.env file contains several environmental variables to configure the ap
  | SENTRY_DSN | no | none | used for sentry error catching |
  | SENTRY_ENVIRONMENT | no | none | used for sentry error catching |
  | SENTRY_SERVER_NAME | no | none | used for sentry error catching |
+ | MATOMO_ENABLED | no | false | used for Matomo analytics tracking |
+ | MATOMO_SITE_ID | no | none | used for Matomo analytics tracking|
+ | MATOMO_SITE_URL | no | none | used for Matomo analytics tracking |
  
 ## License
 

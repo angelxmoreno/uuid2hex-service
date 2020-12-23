@@ -34,7 +34,7 @@ class LookUpAction extends ActionBase
         }
 
         $uuid = Hash::get((array)$requestLog->body, 'uuid', false);
-
+        $this->analytics->trackEventUUIDRequested($uuid);
         if (!$uuid || !UUIDValidator::isValid($uuid)) {
             $requestLog->status = RequestLogStatus::FAILED();
             $requestLog->reason = 'Invalid or missing UUID';
@@ -53,11 +53,13 @@ class LookUpAction extends ActionBase
             /** @var Uuid2Hexs $uuid2hex */
             $uuid2hex = $this->Uuid2Hexs->find()->where($uuid2hex_conditions)->first();
             $requestLog->status = RequestLogStatus::FETCHED();
+            $this->analytics->trackEventHexRefreshed($uuid2hex->hex);
         } else {
             /** @var Uuid2Hexs $uuid2hex */
             $uuid2hex = $this->Uuid2Hexs->newEntity($uuid2hex_conditions);
             $this->Uuid2Hexs->saveOrFail($uuid2hex);
             $requestLog->status = RequestLogStatus::CREATED();
+            $this->analytics->trackEventHexCreated($uuid2hex->hex);
         }
 
         $requestLog->uuid2hex_id = $uuid2hex->id;

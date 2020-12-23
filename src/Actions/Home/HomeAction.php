@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Actions\Home;
 
 use App\Model\Table\RequestLogsTable;
+use App\Utils\Analytics;
 use Cake\Cache\Cache;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
@@ -21,11 +22,12 @@ class HomeAction extends \App\Actions\Action
 
     /**
      * @param LoggerInterface $logger
+     * @param Analytics $analytics
      * @param RequestLogsTable $requestLogsTable
      */
-    public function __construct(LoggerInterface $logger, RequestLogsTable $requestLogsTable)
+    public function __construct(LoggerInterface $logger, Analytics $analytics, RequestLogsTable $requestLogsTable)
     {
-        parent::__construct($logger);
+        parent::__construct($logger, $analytics);
         $this->requestLogsTable = $requestLogsTable;
     }
 
