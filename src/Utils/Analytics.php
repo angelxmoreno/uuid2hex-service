@@ -74,7 +74,7 @@ class Analytics
     protected function trackEvent(string $category, string $action, $value = null)
     {
         if ($this->enabled) {
-            $this->trackEvent($category, $action, $value);
+            $this->engine->doTrackEvent($category, $action, $value);
         }
     }
 
