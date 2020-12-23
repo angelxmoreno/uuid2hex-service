@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Middleware\SentryMiddleware;
+use App\Utils\Analytics;
 use App\Utils\CakephpLoader;
 use App\Utils\Settings;
 use DI\ContainerBuilder;
@@ -14,6 +15,21 @@ use Psr\Log\LoggerInterface;
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions(CakephpLoader::getModelDefinitions());
     $containerBuilder->addDefinitions([
+        Analytics::class => function (ContainerInterface $container) {
+            return new Analytics(
+                $container->get(MatomoTracker::class),
+                Settings::get($container, 'matomo.enabled')
+            );
+        },
+        MatomoTracker::class => function (ContainerInterface $container) {
+            $tracker = new MatomoTracker(
+                Settings::get($container, 'matomo.site_id'),
+                Settings::get($container, 'matomo.site_url')
+            );
+            $tracker->disableSendImageResponse();
+
+            return $tracker;
+        },
         SentryMiddleware::class => function (ContainerInterface $container) {
             return new SentryMiddleware($container->get('settings')['sentry']);
         },

@@ -26,6 +26,11 @@ return function (ContainerBuilder $containerBuilder) {
                 'environment' => Env::get('SENTRY_ENVIRONMENT',''),
                 'server_name' => Env::get('SENTRY_SERVER_NAME',''),
             ],
+            'matomo' => [
+                'enabled' => Env::get('MATOMO_ENABLED'),
+                'site_id' => (int)Env::get('MATOMO_SITE_ID',0),
+                'site_url' => Env::get('MATOMO_SITE_URL'),
+            ]
         ],
     ]);
 };

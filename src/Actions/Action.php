@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use App\Utils\Analytics;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -18,6 +19,11 @@ abstract class Action
      * @var LoggerInterface
      */
     protected $logger;
+
+    /**
+     * @var Analytics
+     */
+    protected $analytics;
 
     /**
      * @var Request
@@ -36,16 +42,18 @@ abstract class Action
 
     /**
      * @param LoggerInterface $logger
+     * @param Analytics $analytics
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, Analytics $analytics)
     {
         $this->logger = $logger;
+        $this->analytics = $analytics;
     }
 
     /**
      * @param Request $request
      * @param Response $response
-     * @param array $args
+     * @param mixed $args
      * @return Response
      * @throws HttpBadRequestException
      */
@@ -55,6 +63,7 @@ abstract class Action
         $this->response = $response;
         $this->args = $args;
 
+        $this->analytics->trackEventApiRequest($request);
         return $this->action();
     }
 
