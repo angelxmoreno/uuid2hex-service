@@ -1,24 +1,17 @@
 {
-    "name": "slim/slim-skeleton",
-    "description": "A Slim Framework skeleton application for rapid development",
+    "name": "angelxmoreno/uuid2hex-service",
+    "description": "PHP micro service for generating unique 16 character hex ids. I created this to be able to track the visitor and session ids sent yo a Matomo (Formerly called Piwik) instance.",
     "keywords": [
-        "microframework",
-        "rest",
-        "router",
-        "psr7"
+        "microservce",
+        "uuid",
+        "hex"
     ],
-    "homepage": "http://github.com/slimphp/Slim-Skeleton",
+    "homepage": "https://github.com/angelxmoreno/uuid2hex-service",
     "license": "MIT",
     "authors": [
         {
-            "name": "Josh Lockhart",
-            "email": "info@joshlockhart.com",
-            "homepage": "http://www.joshlockhart.com/"
-        },
-        {
-            "name": "Pierre Berube",
-            "email": "pierre@lgse.com",
-            "homepage": "http://www.lgse.com/"
+            "name": "Angel S. Moreno",
+            "email": "angelxmoreno@gmail.com"
         }
     ],
     "require": {
