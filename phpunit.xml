@@ -17,6 +17,10 @@
     <testsuites>
         <testsuite name="Test Suite">
             <directory>./tests/</directory>
+            <exclude>./tests/Application/Actions/User/ListUserActionTest.php</exclude>
+            <exclude>./tests/Application/Actions/User/ViewUserActionTest.php</exclude>
+            <exclude>./tests/Domain/User/UserTest.php</exclude>
+            <exclude>./tests/Infrastructure/Persistence/User/InMemoryUserRepositoryTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>

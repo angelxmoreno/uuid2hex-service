@@ -14,6 +14,10 @@ use Slim\Psr7\Headers;
 use Slim\Psr7\Request as SlimRequest;
 use Slim\Psr7\Uri;
 
+/**
+ * Class TestCase
+ * @package Tests
+ */
 class TestCase extends PHPUnit_TestCase
 {
     /**
@@ -34,10 +38,6 @@ class TestCase extends PHPUnit_TestCase
         // Set up dependencies
         $dependencies = require __DIR__ . '/../config/dependencies.php';
         $dependencies($containerBuilder);
-
-        // Set up repositories
-        $repositories = require __DIR__ . '/../config/repositories.php';
-        $repositories($containerBuilder);
 
         // Build PHP-DI Container instance
         $container = $containerBuilder->build();
